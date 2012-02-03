@@ -300,13 +300,13 @@ body {
     left: 0;
     z-index: 30;
     padding-top: 8px;
-    background: transparent url(/images/modalarrow.png) no-repeat 350px 0;
+    background: transparent url(/images/arrow.png) no-repeat 350px 0;
     display: none;
     text-align: left;
 }
 
 #signup {
-    background: transparent url(/images/modalarrow.png) no-repeat 180px 0;
+    background: transparent url(/images/arrow.png) no-repeat 180px 0;
 }
 
 #login .inner {
