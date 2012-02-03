@@ -21,9 +21,9 @@ Some features:
 
 4. Create a MySQL database with the 3 tables in `schema.sql`
 
-5. Edit the configuration section of `bmserver.js` to point to your database
+5. Edit the configuration section of `server.js` to point to your database
 
-6. Run `node bmserver.js` and browse to `http://localhost:3000`
+6. Run `node server.js` and browse to `http://localhost:3000`
 
 If you get an error from express on launch, you may need to `npm install connect@0.5.10`
 
