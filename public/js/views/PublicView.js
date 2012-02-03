@@ -50,6 +50,8 @@ var PublicView = Backbone.View.extend({
                 if (typeof data.error != 'undefined') {
                     $('#signup-error').html(data.error).addClass('alert-message').addClass('error');
                 } else {
+                    $('#header .public').hide();
+                    $('#header .logged-in').show();
                     App.user = data;
                     App.router.navigate("bookmarks", true);
                 }
