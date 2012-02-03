@@ -1,0 +1,73 @@
+div.tagsinput {
+    border: 1px solid #CCC;
+    background: #FFF;
+    padding: 5px;
+    width: 300px;
+    height: 100px;
+    overflow-y: auto;
+}
+
+div.tagsinput span.tag {
+    padding: 5px 8px 8px 8px;
+    text-shadow: 0 1px 0 #000;
+    border: 1px solid #a5d24a;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    display: block;
+    float: left;
+    text-decoration: none;
+    background: #666;
+    color: #fff;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+div.tagsinput span.tag a {
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+div.tagsinput input {
+    width: 80px;
+    margin: 0px;
+    font-family: helvetica;
+    font-size: 13px;
+    border: 1px solid transparent;
+    padding: 5px;
+    background: transparent;
+    color: #000;
+    outline: 0px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+div.tagsinput div {
+    display: block;
+    float: left;
+}
+
+.tags_clear { clear: both; width: 100%; height: 0px; }
+.not_valid {background: #FBD8DB !important; color: #90111A !important;}
+.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    list-style: none;
+    text-align: left;
+}
+.ui-autocomplete li {
+    padding: 3px 5px;
+    background: #fff;
+}
+.ui-autocomplete a:link, .ui-autocomplete a:visited {
+    text-decoration: none;
+    color: #000;
+}
+.ui-autocomplete li:hover {
+    background: #eee;
+}
+* html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */

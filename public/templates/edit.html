@@ -1,0 +1,44 @@
+<div class="modal">
+<div class="modal-header">
+    <a href="#" class="close">&times;</a>
+    <h3>Edit bookmark</h3>
+</div>
+<div class="modal-body">
+    <form>
+        <fieldset>
+        
+            <div class="clearfix">
+                <label for="url">URL</label>
+                <div class="input">
+                    <input name="url" type="text" value="{{url}}" class="span6" />
+                </div>
+            </div><!-- /clearfix -->                    
+        
+            <div class="clearfix">
+                <label for="title">Title</label>
+                <div class="input">
+                    <input name="title" type="text" value="{{title}}" class="span6" />
+                </div>
+            </div><!-- /clearfix -->
+            
+            <div class="clearfix">
+                <label for="description">Description</label>
+                <div class="input">
+                    <input name="description" type="text" value="{{description}}" class="span6" />
+                </div>
+            </div><!-- /clearfix -->
+            
+            <div class="clearfix">
+                <label for="tags">Tags</label>
+                <div class="input">
+                    <input name="tags" type="text" value="{{tags}}" class="span6" />
+                </div>
+            </div><!-- /clearfix -->                
+        
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="reset" class="btn cancel">Cancel</button> <button type="submit" class="btn primary save">Save Changes</button>
+</div>
+</div>

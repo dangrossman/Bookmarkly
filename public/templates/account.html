@@ -1,0 +1,65 @@
+<div class="box">
+    <h2>Account</h2>
+    <div class="wrap">
+        <div class="inner">
+            <p>Change your account information</p>
+            <form id="frm-account">
+            <fieldset>                    
+            E-mail
+            <br />
+            <input type="text" name="email" value="{{email}}" class="span4" />
+            <br /><br /><br />
+            Username
+            <br />
+            <input type="text" name="username" value="{{username}}" class="span4" />
+            <br /><br /><br />
+            Password
+            <br />
+            <input type="password" name="password" value="{{password}}" class="span4" />
+            <br /><br /><br />
+            <div style="float: right; width: 200px; color: #060; padding-top: 20px" class="account_info"></div>
+            <input type="submit" name="submit" value="Save Changes" class="btn success" />
+            </form>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <h2>Import</h2>
+    <div class="wrap">
+        <div class="inner">
+            <p>Import bookmarks from an HTML file exported by your browser or Delicious</p>
+            <form action="/json/import" id="frm-import" enctype="multipart/form-data" method="POST">
+            <fieldset>
+            Choose File
+            <br /><br />
+            <input type="file" name="file" />
+            <br /><br />
+            <input type="submit" name="submit" value="Upload File" class="btn success" />
+            <br /><br />
+            <div style="#060" class="import_info"></div>
+            </fieldset>
+            </form>
+        </div>
+    </div>            
+</div>
+<div class="box">
+    <h2>Helpful Stuff</h2>
+    <div class="wrap">
+        <div class="inner">
+            <p>Drag the bookmarklet below into your browser's bookmarks bar, then click it while on any page you want to save.<br /><br />
+        
+            <a class="bookmarklet" href="javascript:location.href='http://localhost:3000/bookmarklet/?url=&#39;+encodeURIComponent(window.location.href)+&#39;&amp;title=&#39;+encodeURIComponent(document.title)+&#39;';">Save on Bookmarkly</a><br /><br />
+        
+            If you use Google Chrome, you can <a href="https://chrome.google.com/webstore/detail/ppagffeikbmnffejoljnlbbhibodpegm">download this extension</a> to add a bookmarkly button to your browser's toolbar.<br /><br />
+        
+            <ul>
+                <li><a href="http://windows.microsoft.com/en-US/windows-vista/Import-or-export-favorites-in-Internet-Explorer">How to export favorites in Internet Explorer</a></li>
+                <li><a href="http://support.mozilla.org/en-US/kb/Exporting%20bookmarks%20to%20an%20HTML%20file">How to export bookmarks from Mozilla Firefox</a></li>
+                <li><a href="http://support.google.com/chrome/bin/answer.py?hl=en&answer=96816">How to export bookmarks from Google Chrome</a></li>
+                <li><a href="http://export.delicious.com/settings/bookmarks/export">Direct link to export bookmarks from Delicious</a></li>
+            </ul>
+            </p>
+        </div>
+    </div>
+</div>
+

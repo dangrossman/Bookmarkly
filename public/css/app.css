@@ -1,0 +1,366 @@
+body {
+    background: url(/images/wood.jpg) #efefef;
+    text-align: center;
+}
+
+#app {
+    margin: 0px auto;
+    text-align: left;
+}
+
+.whitebox, #footer {
+    margin: 100px auto 15px auto;
+    text-align: left;
+    background: #fff;
+    padding: 20px;
+    overflow: auto;
+    -webkit-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    -moz-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    -moz-border-radius: 8px 8px 8px 8px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+#footer {
+    width: 920px;
+    margin: 25px auto 10px auto;
+    font-size: 9pt;
+    font-weight: bold;
+    color: #444;
+    padding: 15px 20px 10px 20px;
+}
+
+.whitebox img {
+    -webkit-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    -moz-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;    
+}
+
+.whitebox img.button {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    position: relative;
+    top: 10px;
+}
+
+.whitebox .right {
+    float: right;
+}
+
+.whitebox li {
+    color: #000;
+    font-size: 12pt;
+    line-height: 1.6em;
+}
+
+.whitebox p {
+    font-size: 12pt;
+    line-height: 1.6em;    
+}
+
+.whitebox fieldset {
+    text-transform: uppercase;
+    font-size: 8pt;
+}
+
+.whitebox input[type=text], .whitebox input[type=password], .whitebox input[type=submit] {
+    margin-top: 5px;
+    text-transform: none;
+}
+
+.whitebox input[type=submit] {
+    font-size: 9pt;
+}
+
+.bookmarklet {
+    border: 1px solid #ccc;
+    background: #eee;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 3px 6px;
+    -webkit-box-shadow: rgba(34, 25, 25, 0.5) 0 0 3px;
+    -moz-box-shadow: rgba(34, 25, 25, 0.5) 0 0 3px;
+    box-shadow: rgba(34, 25, 25, 0.5) 0 0 3px;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.modal {
+    text-align: left;
+}
+
+.bookmark {
+    background: #eee;
+    width: 250px;
+    font-family: arial;
+    font-size: 9pt;
+    margin-bottom: 15px;
+    float: left;
+    color: #333;
+    -webkit-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    -moz-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    -moz-border-radius: 8px 8px 8px 8px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+.bookmark .thumb {
+    padding: 10px 10px 5px 10px;
+    background: #fff;
+    -webkit-border-radius: 8px 8px 0 0;
+    -moz-border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 0 0;
+    height: 157px;
+    overflow: hidden;
+}
+
+.bookmark .thumb img {
+    border: 1px solid #000;
+}
+
+.bookmark .thumb img:hover {
+    opacity: 0.8;
+}
+
+.bookmark .title {
+    font-weight: bold;
+    padding: 10px 10px 5px 10px;
+    background: #fff;
+}        
+
+.bookmark .description {
+    background: #fff;
+    padding: 0 10px 10px 10px;
+    font-size: 8pt;
+    -webkit-box-shadow: rgba(100, 100, 100, 0.3) 0 2px 2px;
+    -moz-box-shadow: rgba(100, 100, 100, 0.3) 0 2px 2px;
+    box-shadow: rgba(100, 100, 100, 0.3) 0 2px 2px;
+    margin-bottom: 10px;
+}
+
+.bookmark .tags {
+    overflow: auto;
+    margin: 10px 10px 5px 10px;
+}
+
+.bookmark .tags li {
+    float: left;
+    list-style: none;
+    margin-right: 5px;
+    padding: 2px 5px;
+    background: #666;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #000;
+    cursor: pointer;
+    margin-bottom: 2px;
+}
+
+.bookmark .meta {
+    clear: left;
+    background: #f6f2eb;
+    padding: 5px 10px;
+    border-top: 1px solid #ddd;
+    -webkit-border-radius: 0 0 8px 8px;
+    -moz-border-radius: 0 0 8px 8px;
+    border-radius: 0 0 8px 8px;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #666;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.bookmark .meta a:link, .bookmark .meta a:visited {
+    color: #666;
+}
+
+.bookmark .editdelete {
+    float: right;
+}
+
+.taglist {
+    width: 200px;
+    font-weight: bold;
+    font-size: 11pt;
+    margin: 0 0 15px 0;
+}
+
+.taglist a:link, .taglist a:visited {
+    font-weight: normal;
+    font-size: 10pt;
+    padding: 3px 6px;
+    background: #fff;
+    -webkit-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    -moz-box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+    border-radius: 4px 4px 4px 4px;
+    margin: 0 3px 0 0;
+}
+
+.masonry,
+.masonry .masonry-brick {
+  -webkit-transition-duration: 0.7s;
+     -moz-transition-duration: 0.7s;
+       -o-transition-duration: 0.7s;
+          transition-duration: 0.7s;
+}
+
+.masonry {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.masonry .masonry-brick {
+  -webkit-transition-property: left, right, top;
+     -moz-transition-property: left, right, top;
+       -o-transition-property: left, right, top;
+          transition-property: left, right, top;
+}
+
+#redbar {
+    background: #c00 url(/images/redbg.png);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    border-bottom: 4px solid #fff;
+    -webkit-box-shadow: 0 2px 2px rgba(100, 100, 100, 0.5);
+    -moz-box-shadow: 0 2px 2px rgba(100, 100, 100, 0.5);
+    box-shadow: 0 2px 2px rgba(100, 100, 100, 0.5);
+    z-index: 20;
+}
+
+#redbar .wrap {
+    text-align: left;
+    margin: 15px 132px 10px 132px;
+}
+
+#redbar .wrap img {
+    margin-top: 2px;
+}
+
+#redbar .wrap .logged-in {
+    display: none;
+}
+
+#redbar .wrap ul {
+    margin: 0;
+    padding: 0;
+    float: right;
+    list-style: none;
+}
+
+#redbar .wrap ul li {
+    float: left;
+    margin-left: 10px;
+}
+
+#redbar .wrap ul li a:link, #redbar .wrap ul li a:visited {
+    font-weight: bold;
+    -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.046875) 0px 1px 2px 0px;
+    -moz-box-shadow: rgba(255, 255, 255, 0.199219) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.046875) 0px 1px 2px 0px;    
+    box-shadow: rgba(255, 255, 255, 0.199219) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.046875) 0px 1px 2px 0px;    
+    -webkit-transition-delay: 0s;
+    -webkit-transition-duration: 0.10000000149011612s;
+    -webkit-transition-property: all;
+    -webkit-transition-timing-function: linear;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-image: -webkit-linear-gradient(top, #c00, #b00);
+    background-image: -moz-linear-gradient(top, #c00, #b00);
+    background-image: linear-gradient(top, #c00, #b00);
+    background-repeat: repeat-x;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border-left: 1px solid rgba(0, 0, 0, 0.0976563);
+    border-right: 1px solid rgba(0, 0, 0, 0.0976563);
+    border-top: 1px solid rgba(0, 0, 0, 0.0976563);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.246094);
+    color: white;
+    display: inline-block;
+    font-size: 13px;
+    line-height: normal;
+    padding: 5px 10px 8px 10px;
+    text-decoration: none;
+    text-shadow: rgba(0, 0, 0, 0.246094) 0px -1px 0px;
+}
+
+#login, #signup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    padding-top: 8px;
+    background: transparent url(/images/modalarrow.png) no-repeat 350px 0;
+    display: none;
+    text-align: left;
+}
+
+#signup {
+    background: transparent url(/images/modalarrow.png) no-repeat 180px 0;
+}
+
+#login .inner {
+    width: 370px;
+}
+
+#signup .inner {
+    width: 200px;
+}
+
+#login .wrap, #signup .wrap, .box .wrap {
+    background: #e1e1e1;
+    border: 1px solid #ccc;
+    padding: 6px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow:0 0 5px #aaa;
+    -moz-box-shadow:0 0 5px #aaa;
+    box-shadow:0 0 5px #aaa;          
+}
+
+#login .inner, #signup .inner, .box .inner {
+    background: #fff;
+    padding: 5px 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border:1px solid #ccc;
+    text-transform: uppercase;
+    font-size: 8pt;
+}
+
+.inner input[type=text], .inner input[type=password], .inner input[type=submit] {
+    margin-top: 10px;
+    text-transform: none;
+}
+
+.inner input[type=submit] {
+    font-size: 9pt;
+}
+
+.box .wrap {
+    width: 420px;
+}
+
+.box p {
+    font-size: 10pt;
+    text-transform: none;
+    padding: 10px 0;
+    border-bottom: 1px dotted #ccc;
+    margin-bottom: 10px;
+}
+
+.box h2 {
+    margin: 0 0 10px 10px;
+}

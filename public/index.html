@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>bookmarkly</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.6/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0.beta2/handlebars.min.js"></script>
+    <script src="/js/backbone-min.js"></script>    
+    <script src="/js/jquery.masonry.min.js"></script>
+    <script src="/js/jquery.tagsinput.min.js"></script>
+    <script src="/js/bootstrap-modal.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+
+    <script src="/js/models/Bookmark.js"></script>
+    <script src="/js/models/BookmarksCollection.js"></script>
+    <script src="/js/models/Tag.js"></script>
+    <script src="/js/models/TagsCollection.js"></script>
+    <script src="/js/views/PublicView.js"></script>
+    <script src="/js/views/AccountView.js"></script>
+    <script src="/js/views/EditView.js"></script>
+    <script src="/js/views/BookmarkView.js"></script>
+    <script src="/js/views/BookmarksView.js"></script>
+    <script src="/js/views/TagView.js"></script>
+    <script src="/js/views/TagsView.js"></script>
+    <script src="/js/views/AppView.js"></script>
+    <script src="/js/routers/BookmarklyRouter.js"></script>    
+    <script src="/js/App.js"></script>        
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            App.initialize();
+            $(window).resize(function() {
+                App.resizeHeader();
+            });
+        });
+    </script>
+    
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.tagsinput.css" />
+    
+    <style type="text/css">
+        body {
+            background: url(/images/wood.jpg) #efefef;
+            text-align: center;
+        }
+        
+        #app {
+            margin: 0px auto;
+            text-align: left;
+        }
+        
+        .modal {
+            text-align: left;
+        }
+        
+        .bookmark {
+            background: #eee;
+            width: 250px;
+            font-family: arial;
+            font-size: 9pt;
+            margin-bottom: 15px;
+            float: left;
+            color: #333;
+            box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+            border-radius: 8px 8px 8px 8px;
+        }
+        
+        .bookmark .thumb {
+            padding: 10px 10px 5px 10px;
+            background: #fff;
+            border-radius: 8px 8px 0 0;
+            height: 157px;
+            overflow: hidden;
+        }
+        
+        .bookmark .thumb img {
+            border: 1px solid #000;
+        }
+        
+        .bookmark .thumb img:hover {
+            opacity: 0.8;
+        }
+        
+        .bookmark .title {
+            font-weight: bold;
+            padding: 10px 10px 5px 10px;
+            background: #fff;
+        }        
+        
+        .bookmark .description {
+            background: #fff;
+            padding: 0 10px 10px 10px;
+            font-size: 8pt;
+            box-shadow: rgba(100, 100, 100, 0.3) 0 2px 2px;
+            margin-bottom: 10px;
+        }
+        
+        .bookmark .tags {
+            overflow: auto;
+            margin: 10px 10px 5px 10px;
+        }
+        
+        .bookmark .tags li {
+            float: left;
+            list-style: none;
+            margin-right: 5px;
+            padding: 2px 5px;
+            background: #666;
+            border-radius: 5px 5px 5px 5px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 1px 0 #000;
+            cursor: pointer;
+            margin-bottom: 2px;
+        }
+        
+        .bookmark .meta {
+            clear: left;
+            background: #f6f2eb;
+            padding: 5px 10px;
+            border-top: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+            font-size: 8pt;
+            font-weight: bold;
+            color: #666;
+            text-shadow: 0 1px 0 #fff;
+        }
+        
+        .bookmark .meta a:link, .bookmark .meta a:visited {
+            color: #666;
+        }
+        
+        .bookmark .editdelete {
+            float: right;
+        }
+        
+        .taglist {
+            width: 200px;
+            font-weight: bold;
+            font-size: 11pt;
+            margin: 0 0 15px 0;
+        }
+        
+        .taglist a:link, .taglist a:visited {
+            font-weight: normal;
+            font-size: 10pt;
+            padding: 3px 6px;
+            background: #fff;
+            box-shadow: rgba(34, 25, 25, 0.5) 0 0 5px;
+            border-radius: 4px 4px 4px 4px;
+            margin: 0 3px 0 0;
+        }
+        
+        .masonry,
+        .masonry .masonry-brick {
+          -webkit-transition-duration: 0.7s;
+             -moz-transition-duration: 0.7s;
+               -o-transition-duration: 0.7s;
+                  transition-duration: 0.7s;
+        }
+        
+        .masonry {
+          -webkit-transition-property: height, width;
+             -moz-transition-property: height, width;
+               -o-transition-property: height, width;
+                  transition-property: height, width;
+        }
+        
+        .masonry .masonry-brick {
+          -webkit-transition-property: left, right, top;
+             -moz-transition-property: left, right, top;
+               -o-transition-property: left, right, top;
+                  transition-property: left, right, top;
+        }
+        
+        #footer {
+            display: none;
+        }
+        
+        #redbar {
+            background: #c00 url(/images/redbg.png);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            border-bottom: 4px solid #fff;
+            box-shadow: 0 2px 2px rgba(100, 100, 100, 0.5);
+            z-index: 20;
+        }
+        
+        #redbar .wrap {
+            text-align: left;
+            margin: 15px 132px 10px 132px;
+        }
+        
+        #redbar .wrap img {
+            margin-top: 2px;
+        }
+        
+        #redbar .wrap .logged-in {
+            display: none;
+        }
+        
+        #redbar .wrap ul {
+            margin: 0;
+            padding: 0;
+            float: right;
+            list-style: none;
+        }
+        
+        #redbar .wrap ul li {
+            float: left;
+            margin-left: 10px;
+        }
+        
+        #redbar .wrap ul li a:link, #redbar .wrap ul li a:visited {
+            font-weight: bold;
+            -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.046875) 0px 1px 2px 0px;
+            -webkit-transition-delay: 0s;
+            -webkit-transition-duration: 0.10000000149011612s;
+            -webkit-transition-property: all;
+            -webkit-transition-timing-function: linear;
+            background-attachment: scroll;
+            background-clip: border-box;
+            background-image: -webkit-linear-gradient(top, #c00, #b00);
+            background-repeat: repeat-x;
+            border-radius: 4px;
+            border-left: 1px solid rgba(0, 0, 0, 0.0976563);
+            border-right: 1px solid rgba(0, 0, 0, 0.0976563);
+            border-top: 1px solid rgba(0, 0, 0, 0.0976563);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.246094);
+            box-shadow: rgba(255, 255, 255, 0.199219) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.046875) 0px 1px 2px 0px;
+            color: white;
+            display: inline-block;
+            font-size: 13px;
+            line-height: normal;
+            padding: 5px 10px 8px 10px;
+            text-decoration: none;
+            text-shadow: rgba(0, 0, 0, 0.246094) 0px -1px 0px;
+        }
+        
+        #login, #signup {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 30;
+            padding-top: 8px;
+            background: transparent url(/images/modalarrow.png) no-repeat 350px 0;
+            display: none;
+            text-align: left;
+        }
+        
+        #signup {
+            background: transparent url(/images/modalarrow.png) no-repeat 180px 0;
+        }
+        
+        #login .inner {
+            width: 370px;
+        }
+        
+        #signup .inner {
+            width: 200px;
+        }
+        
+        #login .wrap, #signup .wrap, .box .wrap {
+            background: #e1e1e1;
+            border: 1px solid #ccc;
+            padding: 6px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow:0 0 5px #aaa;
+            -moz-box-shadow:0 0 5px #aaa;
+            box-shadow:0 0 5px #aaa;          
+        }
+        
+        #login .inner, #signup .inner, .box .inner {
+            background: #fff;
+            padding: 5px 15px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            border:1px solid #ccc;
+            text-transform: uppercase;
+            font-size: 8pt;
+        }
+        
+        .inner input[type=text], .inner input[type=password], .inner input[type=submit] {
+            margin-top: 10px;
+            text-transform: none;
+        }
+        
+        .inner input[type=submit] {
+            font-size: 9pt;
+        }
+        
+        .box .wrap {
+            width: 420px;
+        }
+        
+        .box p {
+            font-size: 10pt;
+            text-transform: none;
+            padding: 10px 0;
+            border-bottom: 1px dotted #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .box h2 {
+            margin: 0 0 10px 10px;
+        }
+        
+    </style>
+    
+    <script id="header-template" type="text/x-handlebars-template">
+        <div id="redbar">  
+            <div class="wrap">
+              
+                <ul class="logged-in">
+                    <li><form id="frm-search"><input type="text" name="search" placeholder="Search bookmarks" class="span3" /></form></li>
+                    <li><a href="/mytags" id="btn-mytags">my tags</a></li>
+                    <li><a href="/" id="btn-addbookmark">add a bookmark</a></li>
+                    <li><a href="/account" id="btn-account">my account</a></li>
+                    <li><a href="/logout" id="btn-logout">log out</a></li>
+                </ul>
+                
+                <ul class="public">
+                    <li><a href="/login" id="btn-login">log in</a></li>
+                    <li><a href="/signup" id="btn-signup">sign up</a></li>
+                </ul>
+                
+                <a href="/" id="btn-home"><img src="/images/logo.png" alt="bookmarkly" /></a>
+                
+            </div>
+        </div>   
+    </script>
+    
+    <script id="footer-template" type="text/x-handlebars-template">
+        <div class="wrap">
+            <div class="inner">
+                Copyright &copy; 2012 <a href="http://www.awio.com">Awio Web Services LLC</a>. All rights reserved.
+            </div>
+        </div>
+    </script>
+    
+    <script id="account-template" type="text/x-handlebars-template">
+        <div class="box">
+            <h2>Account</h2>
+            <div class="wrap">
+                <div class="inner">
+                    <p>Change your account information</p>
+                    <form id="frm-account">
+                    <fieldset>                    
+                    E-mail
+                    <br />
+                    <input type="text" name="email" value="{{email}}" class="span4" />
+                    <br /><br /><br />
+                    Username
+                    <br />
+                    <input type="text" name="username" value="{{username}}" class="span4" />
+                    <br /><br /><br />
+                    Password
+                    <br />
+                    <input type="password" name="password" value="{{password}}" class="span4" />
+                    <br /><br /><br />
+                    <input type="submit" name="submit" value="Save Changes" class="btn success" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Import</h2>
+            <div class="wrap">
+                <div class="inner">
+                    <p>Import bookmarks from an HTML file exported by your browser or Delicious</p>
+                    <form id="frm-import" enctype="multipart/form-data">
+                    <fieldset>
+                    Choose File
+                    <br /><br />
+                    <input type="file" name="file" />
+                    </fieldset>
+                    </form>
+                </div>
+            </div>            
+        </div>
+    </script>
+  
+    <script id="public-template" type="text/x-handlebars-template">
+        <div style="background: #fff; margin: 0px auto; text-align: left; padding: 20px">Home</div>
+        <div id="login">
+            <div class="wrap">
+                <div class="inner">
+                    <form id="frm-login">
+                    <fieldset>
+                    <div style="float: left; margin-right: 10px">
+                        Username<br />
+                        <input type="text" name="username" style="width: 130px" />
+                    </div>
+                    <div style="float: left; margin-right: 10px">
+                        Password<br />
+                        <input type="password" name="password" style="width: 130px" />
+                    </div>
+                    <div style="float: left">
+                        &nbsp;<br />
+                        <input type="submit" name="submit" value="log in" class="btn small success"  style="width: 60px" />
+                    </div>                    
+                    </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="signup">
+            <div class="wrap">
+                <div class="inner">
+                    <form id="frm-signup">
+                    <fieldset>
+                    E-mail Address<br />
+                    <input type="text" name="email" style="width: 180px" />
+                    <br /><br />
+                    Username<br />
+                    <input type="text" name="username" style="width: 180px" />
+                    <br /><br />
+                    Password<br />
+                    <input type="password" name="password" style="width: 180px" />
+                    <br /><br />
+                    <input type="submit" name="submit" value="sign up" class="btn small success" style="width: 70px" />
+                    </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>        
+    </script>
+      
+    <script id="bookmark-template" type="text/x-handlebars-template">
+        <div class="thumb"><a href="{{url}}"><img src="http://173.255.234.43:8080/thumb?url={{thumburl}}" style="width: 228px; height: 160px" /></a></div>
+        <div class="title"><a href="{{url}}">{{title}}</a></div>
+        <p class="description">{{description}}</p>
+        <ul class="tags">
+        {{#each tags}}
+           <li class="tag">{{this}}</li>
+        {{/each}}
+        </ul>
+        <div class="meta">
+          <span class="editdelete"><a href="#" class="edit">edit</a> &middot; <a href="#" class="delete">delete</a></span>
+          <span>{{date}}</span>
+        </div>
+    </script>
+    
+    <script id="tag-template" type="text/x-handlebars-template">
+        <a href="/tag/{{tag}}">{{tag}}</a> x {{count}}
+    </script>
+    
+    <script id="edit-template" type="text/x-handlebars-template">
+        <div class="modal">
+            <div class="modal-header">
+                <a href="#" class="close">&times;</a>
+                <h3>Edit bookmark</h3>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <fieldset>
+                    
+                        <div class="clearfix">
+                            <label for="url">URL</label>
+                            <div class="input">
+                                <input name="url" type="text" value="{{url}}" class="span6" />
+                            </div>
+                        </div><!-- /clearfix -->                    
+                    
+                        <div class="clearfix">
+                            <label for="title">Title</label>
+                            <div class="input">
+                                <input name="title" type="text" value="{{title}}" class="span6" />
+                            </div>
+                        </div><!-- /clearfix -->
+                        
+                        <div class="clearfix">
+                            <label for="description">Description</label>
+                            <div class="input">
+                                <input name="description" type="text" value="{{description}}" class="span6" />
+                            </div>
+                        </div><!-- /clearfix -->
+                        
+                        <div class="clearfix">
+                            <label for="tags">Tags</label>
+                            <div class="input">
+                                <input name="tags" type="text" value="{{tags}}" class="span6" />
+                            </div>
+                        </div><!-- /clearfix -->                
+                    
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn cancel">Cancel</button> <button type="submit" class="btn primary save">Save Changes</button>
+            </div>
+        </div>
+    </script>    
+    
+</head>
+<body>
+
+    <div id="header"></div>
+
+    <div id="app"></div>
+    
+    <div id="footer"></div>
+      
+</body>
+</html>

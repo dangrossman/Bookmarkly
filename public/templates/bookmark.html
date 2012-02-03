@@ -1,0 +1,12 @@
+<div class="thumb"><a href="{{url}}"><img src="http://screenshots.bookmarkly.com/thumb?url={{thumburl}}" style="width: 228px; height: 160px" /></a></div>
+<div class="title"><a href="{{url}}">{{title}}</a></div>
+<p class="description">{{description}}</p>
+<ul class="tags">
+{{#each tags}}
+   <li class="tag">{{this}}</li>
+{{/each}}
+</ul>
+<div class="meta">
+  <span class="editdelete"><a href="#" class="edit">edit</a> &middot; <a href="#" class="delete">delete</a></span>
+  <span>{{date}}</span>
+</div>
