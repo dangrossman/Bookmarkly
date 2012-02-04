@@ -21,9 +21,13 @@ var PublicView = Backbone.View.extend({
     signup: function(e) {
         e.preventDefault();
         
-        var username = $('#frm-signup input[name=username]').val().trim();
-        var password = $('#frm-signup input[name=password]').val().trim();
-        var email = $('#frm-signup input[name=email]').val().trim();
+        var username = $('#frm-signup input[name=username]').val();
+        var password = $('#frm-signup input[name=password]').val();
+        var email = $('#frm-signup input[name=email]').val();
+
+        username = $.trim(username);
+        password = $.trim(password);
+        email = $.trim(email);
         
         var error = '';
         
@@ -38,7 +42,7 @@ var PublicView = Backbone.View.extend({
         
         if (error != '') {
             $('#signup-error').html(error).addClass('alert-message').addClass('error');
-            return;   
+            return false;   
         }
         
         $.ajax({
