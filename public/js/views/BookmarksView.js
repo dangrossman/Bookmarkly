@@ -18,8 +18,11 @@ var BookmarksView = Backbone.View.extend({
     render: function() {
         
         this.offset = 50;
-        var self = this;
-        $(window).scroll(function() { self.scroll(); });        
+
+        if (this.search == false) {
+            var self = this;
+            $(window).scroll(function() { self.scroll(); });        
+        }
         
         $('#app').append(this.el);
         
