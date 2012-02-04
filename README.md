@@ -17,7 +17,7 @@ Some features:
 
 2. Install [Node.js](http://nodejs.org/) and [NPM](http://npmjs.org/)
 
-3. Install dependencies: `npm install express`, `npm install formidable`, `npm install mysql`, `npm install uglify-js`
+3. Install dependencies: `npm install -d`
 
 4. Create a MySQL database with the 3 tables in `schema.sql`
 
