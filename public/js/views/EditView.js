@@ -54,7 +54,6 @@ var EditView = Backbone.View.extend({
         
         if (this.model.isNew()) {
             App.router.view.body.collection.add(this.model, { at: 0 });
-            App.router.view.body.render();
         } else {
             $(App.router.view.body.el).masonry('reload');
         }

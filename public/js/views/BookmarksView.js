@@ -5,6 +5,8 @@ var BookmarksView = Backbone.View.extend({
                 
         this.collection = new BookmarksCollection();
         this.collection.bind('reset', this.render, this);
+        this.collection.bind('add', this.render, this);
+        
     },
     
     fetch: function(options) {
@@ -24,7 +26,8 @@ var BookmarksView = Backbone.View.extend({
             $(window).scroll(function() { self.scroll(); });        
         }
         
-        $('#app').append(this.el);
+        $(this.el).masonry('destroy');
+        $('#app').html('').append(this.el);
         
         if (this.search == false && this.collection.models.length == 0) {
             
