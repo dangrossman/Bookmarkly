@@ -68,6 +68,8 @@ var BookmarksView = Backbone.View.extend({
         if (bottom) {
             $(window).unbind('scroll');
             $.getJSON('/json/bookmark?offset=' + self.offset, function(data) {
+                self.collection.unbind('add');
+
                 self.offset += 50;
                 self.collection.add(data);
                 
@@ -78,6 +80,8 @@ var BookmarksView = Backbone.View.extend({
                 });
                 
                 $(window).scroll(function() { self.scroll(); });
+
+                self.collection.bind('add', self.render, self);
             });
         }
     }
