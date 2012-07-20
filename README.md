@@ -17,13 +17,15 @@ Some features:
 
 2. Install [Node.js](http://nodejs.org/) and [NPM](http://npmjs.org/)
 
-3. Install dependencies: `npm install -d`
+3. Install [Redis](http://redis.io/download) (for session storage)
 
-4. Create a MySQL database with the 3 tables in `schema.sql`
+4. Install dependencies: `npm install -d`
 
-5. Edit the configuration section of `server.js` to point to your database
+5. Create a MySQL database with the 3 tables in `schema.sql`
 
-6. Run `node server.js` and browse to `http://localhost:3000`
+6. Edit the configuration section of `server.js` to point to your database
+
+7. Run `node server.js` and browse to `http://localhost:3000`
 
 If you get an error from express on launch, you may need to `npm install connect@0.5.10`
 
