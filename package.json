@@ -10,5 +10,6 @@
     ,"express": "2.5.6"
     ,"formidable":"1.0.8"
     ,"mysql":"0.9.5"
+    ,"connect-redis":"1.4.0"
   }
 }

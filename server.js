@@ -10,6 +10,8 @@ var express = require('express'),
     parser = require('uglify-js').parser,
     uglifyer = require('uglify-js').uglify;
 
+var RedisStore = require('connect-redis')(express);
+
 /*  ==============================================================
     Configuration
 =============================================================== */
@@ -25,9 +27,9 @@ client.database = 'bookmarks';
 
 var app = express.createServer();
 
-app.use(express.cookieParser());
-app.use(express.session({ secret: salt, cookie: { maxAge: 3600000 * 24 * 30 } }));
 app.use(express.bodyParser());
+app.use(express.cookieParser());
+app.use(express.session({ secret: salt, store: new RedisStore, cookie: { maxAge: 3600000 * 24 * 30 } }));
 app.use(express.methodOverride());
 app.use(express.logger({ format: ':method :url' }));
 
@@ -152,10 +154,11 @@ app.post('/json/register', function(req, res) {
           
             res.writeHead(200, { 'Content-Type': 'application/javascript' });
             res.write(JSON.stringify(user), 'utf8');
-            res.end('\n');
             
             req.session.user_id = user.id;
             req.session.user = user;         
+
+            res.end('\n');
         }
     });
     
@@ -171,19 +174,19 @@ app.post('/json/login', function(req, res) {
         if (err) console.log(err);
         if (results && results.length == 1) {
 
+            req.session.user_id = results[0].id;
+            req.session.user = results[0];
+
             res.setHeader('Cache-Control', 'max-age=0, must-revalidate, no-cache, no-store');
             res.writeHead(200, { 'Content-Type': 'application/javascript' });
             res.write(JSON.stringify(results[0]), 'utf8');
             res.end('\n');
-            
-            req.session.user_id = results[0].id;
-            req.session.user = results[0];
-            
+
             client.query('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?', [req.session.user_id]);
         } else {
+            req.session.destroy();
             res.writeHead(401, { 'Content-Type': 'text/html' });
             res.end();
-            req.session.destroy();
         }
     });
     
@@ -191,10 +194,10 @@ app.post('/json/login', function(req, res) {
 
 //Log out the current user
 app.post('/json/logout', function(req, res) {
-    
+   
+    req.session.destroy();
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end();
-    req.session.destroy();
     
 });
 
