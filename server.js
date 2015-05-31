@@ -4,13 +4,18 @@
 
 var express = require('express'),
     formidable = require('formidable'),
+    bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    methodOverride = require('method-override'),
+    morgan = require('morgan'),//instead logger
+    favicon = require('serve-favicon'),
     fs = require('fs'),
     crypto = require('crypto'),
-    Client = require('mysql').Client,
-    parser = require('uglify-js').parser,
-    uglifyer = require('uglify-js').uglify;
+    Client = require('mysql');
+    Uglifyer = require('uglify-js');
 
-var RedisStore = require('connect-redis')(express);
+var RedisStore = require('connect-redis')(session);
 
 /*  ==============================================================
     Configuration
@@ -19,26 +24,30 @@ var RedisStore = require('connect-redis')(express);
 //used for session and password hashes
 var salt = '20sdkfjk23';
 
-var client = new Client();
-client.host = 'hostname';
-client.user = 'username';
-client.password = 'password';
-client.database = 'bookmarks';
+//DB configuration
+var client = Client.createConnection({
+  host     : 'hostname',
+  user     : 'username',
+  password : 'password',
+  database : 'bookmarks'
+});
+client.connect();
 
-var app = express.createServer();
+var app = express();//Instead of express.createServer() is deprecated
 
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({ secret: salt, store: new RedisStore, cookie: { maxAge: 3600000 * 24 * 30 } }));
-app.use(express.methodOverride());
-app.use(express.logger({ format: ':method :url' }));
+app.use(bodyParser.urlencoded({extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({ secret: salt, store: new RedisStore, cookie: { maxAge: 3600000 * 24 * 30 }, resave: true, saveUninitialized: true }));
+app.use(methodOverride());
+app.use(morgan(":method :url"));
 
-delete express.bodyParser.parse['multipart/form-data'];
+//delete express.bodyParser.parse['multipart/form-data'];
 
 app.use('/css', express.static(__dirname + '/public/css'));
 app.use('/js', express.static(__dirname + '/public/js'));
 app.use('/images', express.static(__dirname + '/public/images'))
-app.use(express.favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 /*  ==============================================================
     Bundle + minify scripts & templates before starting server
@@ -79,11 +88,20 @@ function bundle() {
         bundle += "\n/**\n* " + file + ".js\n*/\n\n" + fs.readFileSync(__dirname + '/public/js/' + file + '.js') + "\n\n";
     });
     
-    var ast = parser.parse(bundle);
-    ast = uglifyer.ast_mangle(ast);
-    ast = uglifyer.ast_squeeze(ast);
-    bundle = uglifyer.gen_code(ast)
     
+    var ast = Uglifyer.parse(bundle);
+    // compressor needs figure_out_scope too
+    ast.figure_out_scope();
+    compressor = Uglifyer.Compressor()
+    ast = ast.transform(compressor);
+    // need to figure out scope again so mangler works optimally
+    ast.figure_out_scope();
+    ast.compute_char_frequency();
+    ast.mangle_names();
+    // get Ugly code back :)
+    bundle = ast.print_to_string();
+    
+
     fs.writeFileSync(__dirname + '/public/js/bundle.js', bundle, 'utf8');
     
     bundle = "Templates = {};\n";
@@ -394,7 +412,7 @@ app.post('/json/bookmark/:id?', function(req, res) {
 });
 
 //Delete a bookmark
-app.del('/json/bookmark/:id', function(req, res) {
+app.delete('/json/bookmark/:id', function(req, res) {
   
     if (typeof req.session.user_id == 'undefined') {
         res.writeHead(401, { 'Content-type': 'text/html' });
