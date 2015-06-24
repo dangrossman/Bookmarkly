@@ -402,7 +402,7 @@ app.post('/json/bookmark/:id?', function(req, res) {
 });
 
 //Delete a bookmark
-app.del('/json/bookmark/:id', function(req, res) {
+app.delete('/json/bookmark/:id', function(req, res) {
   
     if (typeof req.session.user_id == 'undefined') {
         res.writeHead(401, { 'Content-type': 'text/html' });
