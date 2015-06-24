@@ -6,10 +6,17 @@
   "repo": "git@github.com:dangrossman/Bookmarkly.git",
   "keywords": [],
   "dependencies": {
-    "uglify-js":"*"
+    "uglify-js":"1.2.5"
     ,"express": "*"
-    ,"formidable":"*"
-    ,"mysql":"*"
+    ,"formidable":"1.0.8"
+    ,"mysql":"0.9.5"
     ,"connect-redis":"*"
+    ,"express-session":"*"
+    ,"body-parser":"*"
+    ,"cookie-parser":"*"
+    ,"serve-favicon":"*"
+    ,"connect":"*"
+    ,"method-override":"*"
+    ,"morgan":"*"
   }
 }
