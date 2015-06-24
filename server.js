@@ -110,7 +110,7 @@ function bundle() {
 =============================================================== */
 
 bundle();
-var server = app.listen(3000);
+var server = app.listen(process.env.PORT || 3000);
 
 /*  ==============================================================
     Serve the site skeleton HTML to start the app
