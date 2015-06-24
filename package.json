@@ -1,15 +1,15 @@
 {
   "name": "Bookmarkly",
   "description": "bookmarkly.com, a visual bookmarking site",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Dan Grossman",
   "repo": "git@github.com:dangrossman/Bookmarkly.git",
   "keywords": [],
   "dependencies": {
-    "uglify-js":"1.2.5"
-    ,"express": "2.5.6"
-    ,"formidable":"1.0.8"
-    ,"mysql":"0.9.5"
-    ,"connect-redis":"1.4.0"
+    "uglify-js":"*"
+    ,"express": "*"
+    ,"formidable":"*"
+    ,"mysql":"*"
+    ,"connect-redis":"*"
   }
 }
