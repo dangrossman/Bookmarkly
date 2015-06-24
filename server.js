@@ -2,15 +2,22 @@
     Include required packages
 =============================================================== */
 
-var express = require('express'),
-    formidable = require('formidable'),
-    fs = require('fs'),
-    crypto = require('crypto'),
-    Client = require('mysql').Client,
-    parser = require('uglify-js').parser,
-    uglifyer = require('uglify-js').uglify;
+var express 		= require('express'),
+    morgan 			= require('morgan'),
+    session 		= require('express-session'),
+    bodyParser 		= require('body-parser'),
+    cookieParser 	= require('cookie-parser'),
+    favicon 		= require('serve-favicon'),
+    formidable 		= require('formidable'),
+    fs 				= require('fs'),
+    crypto 			= require('crypto'),
+    Client 			= require('mysql').Client,
+    parser 			= require('uglify-js').parser,
+    connect        	= require('connect')
+    methodOverride 	= require('method-override')
+    uglifyer		= require('uglify-js').uglify;
 
-var RedisStore = require('connect-redis')(express);
+var RedisStore = require('connect-redis')(session);
 
 /*  ==============================================================
     Configuration
@@ -25,20 +32,21 @@ client.user = 'username';
 client.password = 'password';
 client.database = 'bookmarks';
 
-var app = express.createServer();
+var app = express();
 
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({ secret: salt, store: new RedisStore, cookie: { maxAge: 3600000 * 24 * 30 } }));
-app.use(express.methodOverride());
-app.use(express.logger({ format: ':method :url' }));
-
-delete express.bodyParser.parse['multipart/form-data'];
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(morgan('combined'));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(session({ secret: salt, resave: true,
+                        saveUninitialized: false,
+                        store: new RedisStore(), cookie: { maxAge: 3600000 * 24 * 30 } }));
+app.use(methodOverride('X-HTTP-Method-Override'))
 
 app.use('/css', express.static(__dirname + '/public/css'));
 app.use('/js', express.static(__dirname + '/public/js'));
 app.use('/images', express.static(__dirname + '/public/images'))
-app.use(express.favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 /*  ==============================================================
     Bundle + minify scripts & templates before starting server
@@ -102,7 +110,7 @@ function bundle() {
 =============================================================== */
 
 bundle();
-app.listen(3000);
+var server = app.listen(process.env.PORT || 3000);
 
 /*  ==============================================================
     Serve the site skeleton HTML to start the app
@@ -394,7 +402,7 @@ app.post('/json/bookmark/:id?', function(req, res) {
 });
 
 //Delete a bookmark
-app.del('/json/bookmark/:id', function(req, res) {
+app.delete('/json/bookmark/:id', function(req, res) {
   
     if (typeof req.session.user_id == 'undefined') {
         res.writeHead(401, { 'Content-type': 'text/html' });
